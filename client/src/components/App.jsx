@@ -1,19 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
+// Components
+import Header from './Header.jsx';
 
-class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = 
-            {
+const AppWraper = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
 
-            }
-    }
-
-    render() {
-        return (
-
-        );
-    }
+export default function App() {
+    return (
+        <AppWraper>
+            <Header />
+        </AppWraper>
+    );
 }
-
-export default App;
