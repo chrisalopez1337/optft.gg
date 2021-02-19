@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+// Components
+import SignUpForm from './SignUpForm.jsx';
 
 const ButtonWrapper = styled.div`
     display: flex;
@@ -63,9 +65,14 @@ export default function Header() {
           );
 
     return (
+       <>
         <HeaderWrapper>
             <Logo>optft.gg</Logo>
                     {buttonRender}
         </HeaderWrapper>
+        <>
+            <SignUpForm />
+        </>
+       </>
     );
 }
