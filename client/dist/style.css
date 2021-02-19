@@ -1,3 +1,7 @@
-body {
-  font-family: 'Ubuntu', sans-serif;
+body, html {
+  font-family: 'Reggae One', cursive;
+  background-color: #3a3e4a;
+  padding: 0;
+  margin: 0;
+  color: white;
 }
