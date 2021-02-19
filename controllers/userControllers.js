@@ -2,6 +2,9 @@ const userModels = require('../models/userModels.js');
 const bcrypt = require('bcrypt');
 const saltRounds = 10; 
 
+// Helper functions
+const isEmail = (str) => str.indexOf('@') > -1 ? true : false;
+
 module.exports = {
     createUser: (req, res) => {
         const { username, password, email, summoner_name, region } = req.body;
@@ -21,6 +24,23 @@ module.exports = {
                     res.sendStatus(201);
                 }
             });
+        });
+    },
+
+    getUser: (req, res) => {
+        const { searchItem } = req.params;
+        // Define query 
+        const query = isEmail(searchItem)
+            ? { email: searchItem }
+            : { username: searchItem };
+        
+        userModels.getUser(query, (err, docs) => {
+            if (err) {
+                console.log(err);
+                res.sendStatus(500);
+            } else {
+                res.status(201).send(docs[0]);
+            }
         });
     }
 }
