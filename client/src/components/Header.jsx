@@ -43,13 +43,29 @@ const Logo = styled.h1`
 `;
 
 export default function Header() {
+    
+    const [modalView, setModalView] = useState('none');
+    const [buttonView, setButtonView] = useState('loggedOut');
+ 
+    // Conditional Rendering for the button.
+    const buttonRender = buttonView === 'loggedOut'
+        ? (
+            <ButtonWrapper>
+                <Button>Sign Up</Button>
+                <Button>Log In</Button>
+            </ButtonWrapper>
+          )
+        : (
+            <ButtonWrapper>
+                <Button>Settings</Button>
+                <Button>Log Out</Button>
+            </ButtonWrapper>
+          );
+
     return (
         <HeaderWrapper>
             <Logo>optft.gg</Logo>
-                <buttonWrapper>
-                    <Button>Sign Up</Button>
-                    <Button>Log In</Button>
-                </buttonWrapper>
+                    {buttonRender}
         </HeaderWrapper>
     );
 }
