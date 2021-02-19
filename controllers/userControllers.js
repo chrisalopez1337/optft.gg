@@ -13,6 +13,7 @@ module.exports = {
             if (err) {
                 console.log(err);
                 res.sendStatus(500);
+                return;
             }
             // Store hashed password
             const data = { username, password: hash, email, summoner_name, region };
@@ -40,6 +41,31 @@ module.exports = {
                 res.sendStatus(500);
             } else {
                 res.status(201).send(docs[0]);
+            }
+        });
+    },
+
+    validateUser: (req, res) => {
+        const { searchItem, password } = req.body;
+        // Define Query
+        const query = isEmail(searchItem)
+            ? { email: searchItem }
+            : { username: searchItem };
+
+        userModels.getUser(query, (err, docs) => {
+            if (err) {
+                console.log(err);
+                res.sendStatus(500);
+            } else {
+                const hash = docs[0].password;
+                bcrypt.compare(password, hash, (err, result) =>  {
+                    if (err) {
+                        console.log(err);
+                        res.sendStatus(500);
+                    } else {
+                        res.status(201).send({ validated: result });
+                    }
+                });
             }
         });
     }
