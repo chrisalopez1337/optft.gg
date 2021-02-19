@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     username: String,
     email: String,
     password: String,
-    summonerName: String,
+    summoner_name: String,
     region: String,
 })
 
