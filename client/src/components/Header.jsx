@@ -7,7 +7,6 @@ const ButtonWrapper = styled.div`
     display: flex;
     align-items: space-between;
     flex-direction: row;
-    min-width: 400px;
 `;
 
 const Button = styled.button`
