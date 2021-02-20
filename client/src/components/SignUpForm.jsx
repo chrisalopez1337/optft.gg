@@ -116,6 +116,17 @@ export default function SignUpForm() {
         }
     }, [password]);
 
+    // Form validation for password verification
+    useEffect(() => {
+        if (verifyPassword === '' && password === '') {
+            handleMessage('verifyPasswordMessage', '');
+        } else if (verifyPassword === password) {
+            handleMessage('verifyPasswordMessage', '');
+        } else {
+            handleMessage('verifyPasswordMessage', 'Passwords must match');
+        }
+    }, [verifyPassword]);
+
     return (
         <FormWrapper>
             <Form>
@@ -137,6 +148,8 @@ export default function SignUpForm() {
 
                 <Label htmlFor="verifyPassword">Confirm your password:</Label>
                 <Input type="password" name="verifyPassword" value={verifyPassword} onChange={handleChange} />
+
+                <ErrorMessage>{verifyPasswordMessage}</ErrorMessage>
 
                 <Label htmlFor="summoner_name">Enter your summoner name:</Label>
                 <Input type="text" name="summoner_name" value={summoner_name} onChange={handleChange} />
