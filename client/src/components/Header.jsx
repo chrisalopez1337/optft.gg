@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { deleteItem } from '../utils/localStorage.js';
 // Components
 import SignUpForm from './SignUpForm.jsx';
 import LogInForm from './LogInForm.jsx';
@@ -45,11 +46,18 @@ const Logo = styled.h1`
 `;
 
 export default function Header({ userData, setUserData }) {
-    
+   // Conditional rendering propertys 
     const [modalView, setModalView] = useState('none');
-    console.log(userData);
     const [buttonView, setButtonView] = useState('loggedOut');
 
+    // User data functions
+    function handleLogout() {
+        const key = 'loggedIn';
+        deleteItem(key);
+        setUserData(null);
+    }
+
+    // Conditional Rendering for the button.
     useEffect(() => {
         if (userData) {
             setButtonView('loggedIn');
@@ -58,7 +66,6 @@ export default function Header({ userData, setUserData }) {
         }
     }, [userData]);
  
-    // Conditional Rendering for the button.
     const buttonRender = buttonView === 'loggedOut'
         ? (
             <ButtonWrapper>
@@ -69,7 +76,7 @@ export default function Header({ userData, setUserData }) {
         : (
             <ButtonWrapper>
                 <Button>Settings</Button>
-                <Button>Log Out</Button>
+                <Button onClick={() => handleLogout()}>Log Out</Button>
             </ButtonWrapper>
           );
 

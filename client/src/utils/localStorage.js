@@ -28,3 +28,7 @@ export function getItem(key) {
     // Else, return the data. 
     return item.data;
 }
+
+export function deleteItem(key) {
+    localStorage.removeItem(key);
+}
