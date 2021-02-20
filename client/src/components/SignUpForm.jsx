@@ -127,6 +127,34 @@ export default function SignUpForm() {
         }
     }, [verifyPassword]);
 
+
+    // Form validation for email
+    useEffect(() => {
+        if (email === '') {
+            handleMessage('emailMessage', '');
+        } else {
+            const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+            if (regex.test(email.toLowerCase())) {
+                // First make sure the email hasnt already been registered.
+                axios.get(`/api/users/${email}`)
+                    .then(({ data }) => {
+                        if (!data.email) {
+                            // This means the email hasnt been taken.
+                            handleMessage('emailMessage', '');
+                        } else {
+                            // The email is already registered.
+                            const message = 'This email is already registered';
+                            handleMessage('emailMessage', message);
+                        }
+                    })
+                    .catch(err => console.error(err));
+            } else {
+                handleMessage('emailMessage', 'Please enter a valid email.');
+            }
+        }
+    }, [email]);
+
+
     return (
         <FormWrapper>
             <Form>
@@ -140,6 +168,8 @@ export default function SignUpForm() {
 
                 <Label htmlFor="email">Enter your Email:</Label>
                 <Input type="email" name="email" value={email} onChange={handleChange} />
+
+                <ErrorMessage>{emailMessage}</ErrorMessage>
 
                 <Label htmlFor="password">Enter your Password:</Label>
                 <Input type="password" name="password" value={password} onChange={handleChange} />
