@@ -4,6 +4,7 @@ const PORT = 3000;
 const bodyParser = require('body-parser');
 const path = require('path');
 const userRouter = require('./userRoutes.js');
+const leagueRouter = require('./leagueRoutes.js');
 
 // Middleware
 app.use(bodyParser.json());
@@ -14,5 +15,6 @@ app.use('/', express.static(path.join(__dirname, '../client/dist')));
 
 // Routers
 app.use('/api/users', userRouter);
+app.use('/api/leagues', leagueRouter);
 
 app.listen(PORT, () => console.log(`App listening @ localhost:${PORT}`));
