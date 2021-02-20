@@ -118,7 +118,7 @@ export default function LogInForm({ setModalView }) {
     function handleChange(e) {
         const { target } = e;
         const { name, value } = target;
-        setFirelds({...fields, [name]: value });
+        setFields({...fields, [name]: value });
     }
 
     // Submit handler form
