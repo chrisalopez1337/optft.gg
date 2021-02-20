@@ -7,9 +7,9 @@ export function setItem(key, data, ttl = sevenDays) {
 
     const item = {
         data,
-        expires: now.getTime() + ttl;
+        expires: now.getTime() + ttl,
     }
-    localStorage.setItem(key, JSON.stringify(item))''
+    localStorage.setItem(key, JSON.stringify(item));
 }
 
 export function getItem(key) {

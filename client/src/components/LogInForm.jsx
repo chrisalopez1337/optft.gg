@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { setItem } from '../utils/localStorage.js';
 
 const FormWrapper = styled.div`
     display: flex;
@@ -100,7 +101,7 @@ border: 2px solid #e38f10;
     }
 `;
 
-export default function LogInForm({ setModalView }) {
+export default function LogInForm({ setModalView, setUserData }) {
     // Set up form data
     const [fields, setFields] = useState({ username: '', password: '' });
     const { username, password } = fields;
@@ -129,8 +130,21 @@ export default function LogInForm({ setModalView }) {
         axios.post('/api/users/validate', userData)
             .then(({ data }) => {
                 if (data.validated) {
-                    // User is validated log them in.
+                    // User is validated log them in by adding them to local storage.
+                    const token = { username };
+                    setItem('loggedIn', token);
                     handleMessage('successMessage', 'Logged in! Loading profile...');
+
+                    // Log the user in by updating the state.
+                    // Not sure if this is the best way to handle it, may refactor later.
+                    axios.get(`/api/users/${username}`)
+                        .then(({ data }) => {
+                            setUserData(data);
+                        })
+                        .catch(err => console.log(err));
+
+                    // Set modal view to none
+                    setModalView('none');
                 } else {
                     // User is either not found or invalid.
                     handleMessage('errorMessage', 'Please double check your credentials.');

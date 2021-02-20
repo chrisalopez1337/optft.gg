@@ -10,9 +10,11 @@ const AppWraper = styled.div`
 `;
 
 export default function App() {
+    const [userData, setUserData] = useState(null);
+
     return (
         <AppWraper>
-            <Header />
+            <Header setUserData={setUserData} userData={userData} />
         </AppWraper>
     );
 }

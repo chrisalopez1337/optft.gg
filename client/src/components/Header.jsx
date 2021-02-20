@@ -44,10 +44,19 @@ const Logo = styled.h1`
     font-size: 36px;
 `;
 
-export default function Header() {
+export default function Header({ userData, setUserData }) {
     
     const [modalView, setModalView] = useState('none');
+    console.log(userData);
     const [buttonView, setButtonView] = useState('loggedOut');
+
+    useEffect(() => {
+        if (userData) {
+            setButtonView('loggedIn');
+        } else {
+            setButtonView('loggedOut');
+        }
+    }, [userData]);
  
     // Conditional Rendering for the button.
     const buttonRender = buttonView === 'loggedOut'
@@ -68,7 +77,7 @@ export default function Header() {
     const modalRender = modalView === 'sign-in'
         ? <SignUpForm setModalView={setModalView} />
         : modalView === 'log-in'
-        ? <LogInForm setModalView={setModalView} />
+        ? <LogInForm setModalView={setModalView} setUserData={setUserData} />
         : (<></>);
 
     return (
