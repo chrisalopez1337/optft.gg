@@ -3,6 +3,8 @@ import axios from 'axios';
 import styled from 'styled-components';
 // Components
 import Header from './Header.jsx';
+// Utils
+import { getItem } from '../utils/localStorage.js';
 
 const AppWraper = styled.div`
     display: flex;
@@ -10,7 +12,12 @@ const AppWraper = styled.div`
 `;
 
 export default function App() {
+    // User data handlers
     const [userData, setUserData] = useState(null);
+    useEffect(() => {
+        const savedData = getItem('loggedIn');
+        setUserData(savedData);
+    }, []);
 
     return (
         <AppWraper>
