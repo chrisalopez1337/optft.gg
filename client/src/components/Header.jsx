@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 // Components
 import SignUpForm from './SignUpForm.jsx';
+import LogInForm from './LogInForm.jsx';
 
 const ButtonWrapper = styled.div`
     display: flex;
@@ -53,7 +54,7 @@ export default function Header() {
         ? (
             <ButtonWrapper>
                 <Button onClick={() => setModalView('sign-in')}>Sign Up</Button>
-                <Button>Log In</Button>
+                <Button onClick={() => setModalView('log-in')}>Log In</Button>
             </ButtonWrapper>
           )
         : (
@@ -67,7 +68,7 @@ export default function Header() {
     const modalRender = modalView === 'sign-in'
         ? <SignUpForm setModalView={setModalView} />
         : modalView === 'log-in'
-        ? /* log in form here */ (<></>)
+        ? <LogInForm setModalView={setModalView} />
         : (<></>);
 
     return (

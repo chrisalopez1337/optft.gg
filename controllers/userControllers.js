@@ -57,7 +57,12 @@ module.exports = {
                 console.log(err);
                 res.sendStatus(500);
             } else {
+                if (!docs[0]) {
+                    res.status(201).send({ validated: false });
+                    return;
+                }
                 const hash = docs[0].password;
+
                 bcrypt.compare(password, hash, (err, result) =>  {
                     if (err) {
                         console.log(err);
