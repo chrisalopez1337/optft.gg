@@ -102,6 +102,20 @@ export default function SignUpForm() {
         }
     }, [username]);
 
+    // Form validation for password
+    useEffect(() => {
+        if (password === '') {
+            handleMessage('passwordMessage', '');
+        } else {
+            const regex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");
+            if (regex.test(password)) {
+                handleMessage('passwordMessage', '');
+            } else {
+                handleMessage('passwordMessage', 'Password must be eight or more characters, contain atleast one uppercase, one symbol, and one lowercase.');
+            }
+        }
+    }, [password]);
+
     return (
         <FormWrapper>
             <Form>
@@ -118,6 +132,8 @@ export default function SignUpForm() {
 
                 <Label htmlFor="password">Enter your Password:</Label>
                 <Input type="password" name="password" value={password} onChange={handleChange} />
+
+                <ErrorMessage>{passwordMessage}</ErrorMessage>
 
                 <Label htmlFor="verifyPassword">Confirm your password:</Label>
                 <Input type="password" name="verifyPassword" value={verifyPassword} onChange={handleChange} />
