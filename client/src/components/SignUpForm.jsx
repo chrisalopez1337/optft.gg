@@ -27,6 +27,9 @@ const Form = styled.form`
 
 const TitleWrapper = styled.div`
     align-items: center;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
 `;
 
 const Title = styled.h1`
@@ -56,7 +59,48 @@ const ErrorMessage = styled.div`
     margin: 4px;
 `;
 
-export default function SignUpForm() {
+const SuccessMessage = styled.div`
+    font-size: 16px;
+    max-width: 75%;
+    color: green;
+    margin: 4px;
+`;
+
+const CloseButton = styled.button`
+    border: 2px solid red;
+    font-family: inherit;
+    padding: 5px;
+    margin: 4px;
+    font-size: 16px;
+    color: white;
+    border-radius: 10px;
+    background: transparent;
+    transition-duration: 0.2s;
+    &:hover {
+        color: white;
+        background: red;
+        border: 2px solid #e38f10;
+    }    
+`;
+
+const SubmitButton = styled.button`
+border: 2px solid #e38f10;
+    font-family: inherit;
+    padding: 7px;
+    margin: 10px;
+    font-size: 20px;
+    color: white;
+    border-radius: 10px;
+    background: transparent;
+    transition-duration: 0.2s;
+    &:hover {
+        color: #e38f10;
+        background: white;
+        border: 2px solid white;
+    }
+`;
+
+export default function SignUpForm({ setModalView }) {
     // Store form data;
     const [fields, setFields] = useState({ username: '', password: '', verifyPassword: '', email: '', summoner_name: '', region: ''});
     const { username, password, verifyPassword, email, summoner_name, region } = fields;
@@ -202,6 +246,7 @@ export default function SignUpForm() {
             <Form onSubmit={handleSubmit}>
             <TitleWrapper>
                 <Title>Create Account</Title>
+                <CloseButton onClick={() => setModalView('none')}>Close</CloseButton>
             </TitleWrapper>
                 <Label htmlFor="username">Enter a Username:</Label>
                 <Input type="text" name="username" value={username} onChange={handleChange} />
@@ -232,9 +277,9 @@ export default function SignUpForm() {
                     <option value="NA">NA</option>
                 </select>
 
-                <button type="submit">Create Account</button>
+                <SubmitButton type="submit">Create Account</SubmitButton>
 
-                <ErrorMessage>{submitMessage}</ErrorMessage>
+                <SuccessMessage>{submitMessage}</SuccessMessage>
             </Form>
         </FormWrapper>
     );

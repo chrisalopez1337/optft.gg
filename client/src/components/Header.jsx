@@ -52,7 +52,7 @@ export default function Header() {
     const buttonRender = buttonView === 'loggedOut'
         ? (
             <ButtonWrapper>
-                <Button>Sign Up</Button>
+                <Button onClick={() => setModalView('sign-in')}>Sign Up</Button>
                 <Button>Log In</Button>
             </ButtonWrapper>
           )
@@ -63,6 +63,13 @@ export default function Header() {
             </ButtonWrapper>
           );
 
+    // Conditional rendering for the modal views
+    const modalRender = modalView === 'sign-in'
+        ? <SignUpForm setModalView={setModalView} />
+        : modalView === 'log-in'
+        ? /* log in form here */ (<></>)
+        : (<></>);
+
     return (
        <>
         <HeaderWrapper>
@@ -70,7 +77,7 @@ export default function Header() {
                     {buttonRender}
         </HeaderWrapper>
         <>
-            <SignUpForm />
+            {modalRender}
         </>
        </>
     );
