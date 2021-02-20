@@ -163,39 +163,37 @@ export default function SignUpForm() {
         
         // First make sure all the fields have been filled out.
         const requiredFields = [username, email, password, verifyPassword];
-        requiredFields.forEach(item => {
+        for (let i = 0; i < requiredFields.length; i++) {
+            const item = requiredFields[i];
             if (item === '') {
                 const message = 'All fields must be filled out';
                 handleMessage('submitMessage', message);
-                valid = false;
                 return;
             }
-        });
+        }
 
         // Then make sure the formatting is correct for all fields.
         const errorMessages = [usernameMessage, emailMessage, passwordMessage, verifyPasswordMessage];
-        errorMessages.forEach(item => {
+        for (let i = 0; i < errorMessages.length; i++) {
+            const item = errorMessages[i];
             if (item !== '') {
                 const message = 'Please make sure all fields are formatted correctly.';
                 handleMessage('submitMessage', message);
-                valid = false;
                 return;
             }
-        });
+        }
 
         // Format the data to be POSTed.
         const summonerName = summoner_name !== '' ? summoner_name : 'scarra'; // Im setting it to default to scarra so they can preview the page.
         const regionData = region !== '' ? region : 'NA'; // Defaulting to NA for same reasons as above.
         const userData = { username, email, password, summoner_name: summonerName, region: regionData };
         // Create the user.
-        if (valid) {
-            axios.post('/api/users/create', userData)
-                .then(res => {
-                    const message = `Thanks for signing up ${username}! Please log in :)`;
-                    handleMessage('submitMessage', message);
-                })
-                .catch(err => console.error(err));
-        }
+        axios.post('/api/users/create', userData)
+            .then(res => {
+                const message = `Thanks for signing up ${username}! Please log in :)`;
+                handleMessage('submitMessage', message);
+            })
+            .catch(err => console.error(err));
     }
 
 
