@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const FormWrapper = styled.div`
     display: flex;
@@ -20,11 +21,12 @@ const Form = styled.form`
     padding-right: 65px;
     border-radius: 7px;
     background-color: #3a3e4a;
-    
-`;
+    max-width: 400px;
+    min-width: 400px;
+    `;
 
 const TitleWrapper = styled.div`
-    width: 100%;
+    align-items: center;
 `;
 
 const Title = styled.h1`
@@ -47,10 +49,21 @@ const Label = styled.label`
     font-size: 18px;
 `;
 
+const ErrorMessage = styled.div`
+    font-size: 16px;
+    max-width: 75%;
+    color: red;
+    margin: 4px;
+`;
+
 export default function SignUpForm() {
     // Store form data;
     const [fields, setFields] = useState({ username: '', password: '', verifyPassword: '', email: '', summoner_name: '', region: ''});
     const { username, password, verifyPassword, email, summoner_name, region } = fields;
+
+    // Store user messaging
+    const [messages, setMessages] = useState({ usernameMessage: '', passwordMessage: '', verifyPasswordMessage: '', emailMessage: ''});
+    const { usernameMessage, passwordMessage, verifyPasswordMessage, emailMessage } = messages;
 
     // Update handlers
     function handleChange(e) {
@@ -58,6 +71,36 @@ export default function SignUpForm() {
         const { value, name } = target;
         setFields({...fields, [name]: value});
     }
+
+    function handleMessage(name, value) {
+        setMessages({...messages, [name]: value});
+    }
+    // Form validation for username: 4-10 Chars no special.
+    useEffect(() => {
+        if (username === '') {
+            handleMessage('usernameMessage', '');
+        } else {
+            const regex = new RegExp("^[a-zA-Z0-9]{4,10}$");
+            if (regex.test(username)) {
+                // Make sure username doesnt already exist.
+                axios.get(`/api/users/${username}`)
+                    .then(({ data }) => {
+                        if (!data.username) {
+                            // Username is available.
+                            handleMessage('usernameMessage', '');
+                        } else {
+                            // Username is taken;
+                            const message = 'Username is already taken';
+                            handleMessage('usernameMessage', message);
+                        }
+                    })
+                    .catch(err => console.error(err));
+            } else {
+                const message = 'Username must be 4-10 characters, and contain no special characters.';
+                handleMessage('usernameMessage', message)
+            }
+        }
+    }, [username]);
 
     return (
         <FormWrapper>
@@ -67,6 +110,8 @@ export default function SignUpForm() {
             </TitleWrapper>
                 <Label htmlFor="username">Enter a Username:</Label>
                 <Input type="text" name="username" value={username} onChange={handleChange} />
+
+                <ErrorMessage>{usernameMessage}</ErrorMessage>
 
                 <Label htmlFor="email">Enter your Email:</Label>
                 <Input type="email" name="email" value={email} onChange={handleChange} />
