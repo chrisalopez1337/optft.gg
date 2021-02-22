@@ -108,7 +108,7 @@ const EditWrapper = styled.div`
     flex-direction: row;
 `;
 
-export default function Settings({ userData, setModalView }) {
+export default function Settings({ userData, setModalView, setUserData }) {
     // Edit fields
     const [fields, setFields] = useState({ new_summoner_name: userData.summoner_name, new_region: userData.region });
     const { new_summoner_name, new_region } = fields;
@@ -118,10 +118,28 @@ export default function Settings({ userData, setModalView }) {
         const { name, value } = target;
         setFields({...fields, [name]: value});
     }
+    // error message
+    const [errorMessage, setErrroMessage] = useState('');
+    // success message
+    const [successMessage, setSuccessMessage] = useState('');
 
     // Submit handlers
     function handleSubmit(e) {
         e.preventDefault();
+        // Make sure fields are not just the same.
+        if (new_summoner_name === userData.summoner_name && new_region === userData.region) {
+            setErrorMessage('No fields were edited, please edit fields to update them');
+            return;
+        }
+        // Update user info will edit this later to only update changed fields rather than updating fields even if they didnt get changed.
+        const updateInfo = 
+            { 
+                username: userData.username,
+                updateItems: { region: new_region, summoner_name: new_summoner_name },
+            }
+        axios.patch('/api/users/update', updateInfo)
+            .then(({ data }) => setUserData(data), setSuccessMessage('User updated!'), setTimeout(() => setModalView('none'), 1000))
+            .catch(err => console.log(err));
     }
     return (
         <FormWrapper>
@@ -140,6 +158,9 @@ export default function Settings({ userData, setModalView }) {
                 </select>
 
                 <SubmitButton type="submit">Submit changes</SubmitButton>
+
+                <ErrorMessage>{errorMessage}</ErrorMessage>
+                <SuccessMessage>{successMessage}</SuccessMessage>
             </Form>
         </FormWrapper>
     )

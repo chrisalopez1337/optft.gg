@@ -10,6 +10,6 @@ module.exports = {
     },
 
     updateUser: (query, data, cb) => {
-        Users.findOneAndUpdate(query, data, { new: true }, cb);
+        Users.findOneAndUpdate(query, data, cb);
     }
 }
