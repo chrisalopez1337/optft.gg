@@ -4,6 +4,7 @@ import { deleteItem } from '../utils/localStorage.js';
 // Components
 import SignUpForm from './SignUpForm.jsx';
 import LogInForm from './LogInForm.jsx';
+import Settings from './Settings.jsx';
 
 const ButtonWrapper = styled.div`
     display: flex;
@@ -75,7 +76,7 @@ export default function Header({ userData, setUserData }) {
           )
         : (
             <ButtonWrapper>
-                <Button>Settings</Button>
+                <Button onClick={() => setModalView('settings')}>Settings</Button>
                 <Button onClick={() => handleLogout()}>Log Out</Button>
             </ButtonWrapper>
           );
@@ -85,6 +86,8 @@ export default function Header({ userData, setUserData }) {
         ? <SignUpForm setModalView={setModalView} />
         : modalView === 'log-in'
         ? <LogInForm setModalView={setModalView} setUserData={setUserData} />
+        : modalView === 'settings'
+        ? <Settings setModalView={setModalView} setUserData={setUserData} userData={userData} />
         : (<></>);
 
     return (

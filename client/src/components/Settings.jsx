@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axois';
+import axios from 'axios';
 import styled from 'styled-components';
 
 const FormWrapper = styled.div`
@@ -120,16 +120,24 @@ export default function Settings({ userData, setModalView }) {
         setFields({...fields, [name]: value });
     }
 
+    // Conditional Rendering
+    const summonerNameRender = summoner_name_view
+        ? (<input type="text" name="summoner_name" value={summoner_name} onChange={handleFieldChange} />)
+        : (<h3>{summoner_name}</h3>);
+
+    console.log(summonerNameRender);
+    console.log(summoner_name);
+    console.log(userData);
 
     return (
         <FormWrapper>
-            <Form onSubmit={handleSubmit}>
+            <Form >
                 <TitleWrapper>
                     <Title> Account Settings</Title>
                     <CloseButton onClick={() => setModalView('none')}>Close</CloseButton>
                 </TitleWrapper>
                 <Label htmlFor="summoner_name">Your summoner name</Label>
-                <
+                {summonerNameRender}
             </Form>
         </FormWrapper>
     )
