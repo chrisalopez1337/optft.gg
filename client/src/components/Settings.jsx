@@ -109,44 +109,30 @@ const EditWrapper = styled.div`
 `;
 
 export default function Settings({ userData, setModalView }) {
-    // Store data for conditional rendering on edit views.
-    const [editViews, setEditViews] = useState({ summoner_name_view: false, regionView: false });
-    const { summoner_name_view, regionView } = editViews;
-    // Handler function
-    function handleModalChange(name, value) {
-        setEditViews({...editViews, [name]: value});
-    }
-
-    // Store data for edits
-    const [fields, setFields] = useState({ summoner_name: userData.summoner_name, region: userData.region });
-    const { summoner_name, region } = fields;
-    // Handler function
-    function handleFieldChange(e) {
+    // Edit fields
+    const [fields, setFields] = useState({ new_summoner_name: userData.summoner_name, new_region: userData.region });
+    const { new_summoner_name, new_region } = fields;
+    // Field handler
+    function handleFields(e) {
         const { target } = e;
         const { name, value } = target;
-        setFields({...fields, [name]: value });
+        setFields({...fields, [name]: value});
     }
 
-    // Conditional Rendering
-    const summonerNameRender = summoner_name_view
-        ? (<input type="text" name="summoner_name" value={summoner_name} onChange={handleFieldChange} />)
-        : (<h3>{summoner_name}</h3>);
-
-    console.log(summoner_name);
-    console.log(userData);
-
+    // Submit handlers
+    function handleSubmit(e) {
+        e.preventDefault();
+    }
     return (
         <FormWrapper>
-            <Form >
+            <Form onSubmit={handleSubmit}>
                 <TitleWrapper>
-                    <Title> Account Settings</Title>
+                    <Title>Change Account Settings</Title>
                     <CloseButton onClick={() => setModalView('none')}>Close</CloseButton>
                 </TitleWrapper>
-                <Label htmlFor="summoner_name">Your summoner name</Label>
-                <EditWrapper>
-                    {summonerNameRender}
-                    <button>Edit Summoner Name</button>
-                </EditWrapper>
+
+                <Label htmlFor="new_summoner_name">Edit Summoner Name</Label>
+                <Input type="text" name="new_summoner_name" value={new_summoner_name} onChange={handleFields} />
             </Form>
         </FormWrapper>
     )
