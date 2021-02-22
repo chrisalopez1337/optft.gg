@@ -73,5 +73,18 @@ module.exports = {
                 });
             }
         });
+    },
+
+    updateUser: (req, res) => {
+        const { updateItems, username } = req.body;
+        userModels.updateUser(username, updateItems, (err, docs) => {
+            if (err) {
+                console.log(err);
+                res.sendStatus(500);
+            } else {
+                res.status(201).send(docs);
+            }
+        });
+
     }
 }

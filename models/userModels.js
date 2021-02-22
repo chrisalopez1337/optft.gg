@@ -7,5 +7,9 @@ module.exports = {
 
     getUser: (query, cb) => {
         Users.find(query, cb);
+    },
+
+    updateUser: (query, data, cb) => {
+        Users.findOneAndUpdate(query, data, { new: true }, cb);
     }
 }

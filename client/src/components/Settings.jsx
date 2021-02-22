@@ -127,12 +127,19 @@ export default function Settings({ userData, setModalView }) {
         <FormWrapper>
             <Form onSubmit={handleSubmit}>
                 <TitleWrapper>
-                    <Title>Change Account Settings</Title>
+                    <Title>Settings</Title>
                     <CloseButton onClick={() => setModalView('none')}>Close</CloseButton>
                 </TitleWrapper>
 
                 <Label htmlFor="new_summoner_name">Edit Summoner Name</Label>
                 <Input type="text" name="new_summoner_name" value={new_summoner_name} onChange={handleFields} />
+
+                <Label htmlFor="new_region">Edit Region</Label>
+                <select onChange={handleFields} value={new_region}>
+                    <option value="NA">NA</option>
+                </select>
+
+                <SubmitButton type="submit">Submit changes</SubmitButton>
             </Form>
         </FormWrapper>
     )
