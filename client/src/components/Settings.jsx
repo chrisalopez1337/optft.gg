@@ -138,7 +138,7 @@ export default function Settings({ userData, setModalView, setUserData }) {
                 updateItems: { region: new_region, summoner_name: new_summoner_name },
             }
         axios.patch('/api/users/update', updateInfo)
-            .then(({ data }) => setUserData(data), setSuccessMessage('User updated!'), setTimeout(() => setModalView('none'), 1000))
+            .then(({ data }) => setUserData(data), setSuccessMessage('User updated!'))
             .catch(err => console.log(err));
     }
     return (

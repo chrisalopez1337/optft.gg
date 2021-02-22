@@ -53,6 +53,7 @@ export default function Header({ userData, setUserData }) {
 
     // User data functions
     function handleLogout() {
+        setModalView('none');
         const key = 'loggedIn';
         deleteItem(key);
         setUserData(null);
