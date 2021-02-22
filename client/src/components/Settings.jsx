@@ -106,11 +106,21 @@ export default function Settings({ userData, setModalView }) {
     const [editViews, setEditViews] = useState({ summoner_name_view: false, regionView: false });
     const { summoner_name_view, regionView } = editViews;
     // Handler function
-    function handleChange(name, value) {
+    function handleModalChange(name, value) {
         setEditViews({...editViews, [name]: value});
     }
 
-    
+    // Store data for edits
+    const [fields, setFields] = useState({ summoner_name: userData.summoner_name, region: userData.region });
+    const { summoner_name, region } = fields;
+    // Handler function
+    function handleFieldChange(e) {
+        const { target } = e;
+        const { name, value } = target;
+        setFields({...fields, [name]: value });
+    }
+
+
     return (
         <FormWrapper>
             <Form onSubmit={handleSubmit}>
