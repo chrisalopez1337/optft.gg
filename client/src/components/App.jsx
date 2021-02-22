@@ -3,6 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 // Components
 import Header from './Header.jsx';
+import SearchBar from './SearchBar.jsx';
 // Utils
 import { getItem } from '../utils/localStorage.js';
 
@@ -30,6 +31,7 @@ export default function App() {
     return (
         <AppWraper>
             <Header setUserData={setUserData} userData={userData} />
+            <SearchBar setUserData={setUserData} userData={userData} />
         </AppWraper>
     );
 }
