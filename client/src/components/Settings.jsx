@@ -100,6 +100,13 @@ border: 2px solid #e38f10;
     }
 `;
 
+const EditWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    flex-direction: row;
+`;
 
 export default function Settings({ userData, setModalView }) {
     // Store data for conditional rendering on edit views.
@@ -125,7 +132,6 @@ export default function Settings({ userData, setModalView }) {
         ? (<input type="text" name="summoner_name" value={summoner_name} onChange={handleFieldChange} />)
         : (<h3>{summoner_name}</h3>);
 
-    console.log(summonerNameRender);
     console.log(summoner_name);
     console.log(userData);
 
@@ -137,7 +143,10 @@ export default function Settings({ userData, setModalView }) {
                     <CloseButton onClick={() => setModalView('none')}>Close</CloseButton>
                 </TitleWrapper>
                 <Label htmlFor="summoner_name">Your summoner name</Label>
-                {summonerNameRender}
+                <EditWrapper>
+                    {summonerNameRender}
+                    <button>Edit Summoner Name</button>
+                </EditWrapper>
             </Form>
         </FormWrapper>
     )

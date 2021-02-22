@@ -16,7 +16,15 @@ export default function App() {
     const [userData, setUserData] = useState(null);
     useEffect(() => {
         const savedData = getItem('loggedIn');
-        setUserData(savedData);
+        console.log(savedData);
+        if (!savedData) {
+            setUserData(savedData);
+            return;
+        }
+        // Get summoner data.
+        axios.get(`/api/users/${savedData.username}`)
+            .then(({ data }) => setUserData(data))
+            .catch(err => console.log(err));
     }, []);
 
     return (
