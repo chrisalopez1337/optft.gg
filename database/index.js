@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     region: String,
 });
 
-const gameInfoSchema = new Mongoose.Schema({
+const gameInfoSchema = new mongoose.Schema({
     summoner_name: String,
     account_id: String,
     puuid: String,

@@ -46,6 +46,10 @@ const Logo = styled.h1`
     font-size: 36px;
 `;
 
+const Slogan = styled.h6`
+    font-size: 20px;
+`;
+
 export default function Header({ userData, setUserData }) {
    // Conditional rendering propertys 
     const [modalView, setModalView] = useState('none');
@@ -95,6 +99,7 @@ export default function Header({ userData, setUserData }) {
        <>
         <HeaderWrapper>
             <Logo>optft.gg</Logo>
+            <Slogan>Analayze recent TFT Matches</Slogan>
                     {buttonRender}
         </HeaderWrapper>
         <>

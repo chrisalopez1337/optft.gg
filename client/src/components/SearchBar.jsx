@@ -48,6 +48,7 @@ export default function SearchBar({ setUserData, userData }) {
         axios.get(`/api/leagues/allInfo/by-summmoner-name/${searchName}`)
             .then(({ data }) => {
                 setUserData(data);
+                console.log(data.allMatchInfo.game0);
             })
             .catch(err => console.log(err));
     }
