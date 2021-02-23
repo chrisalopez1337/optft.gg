@@ -8,17 +8,29 @@ const db = mongoose.connection;
 db.on('error', (err) => console.log(err));
 db.on('open', () => console.log('Connected to MongoDB @ optftgg-dev'));
 
-// This is a naive schema just for development purposes.
 const userSchema = new mongoose.Schema({
     username: String,
     email: String,
     password: String,
-    summoner_name: String,
+    summoner_Name: String,
     region: String,
-    lpRecord: { type: Object, default: { completeLpData: [], weeks: { dateHere: [] }}}, // May want to consider splitting the arrays for this one 
-    matchHistory: { type: Object, default: { allMatches: { 1: [] }}},
-    lastMatchIndex: { type: Number, default: 1 },
-    lastGameId: { type: String, default: 'null' },
+});
+
+const gameInfoSchema = new Mongoose.Schema({
+    summoner_name: String,
+    account_id: String,
+    puuid: String,
+    profile_icon_id: Number,
+    league_id: String,
+    tier: String,
+    rank: String,
+    league_points: Number,
+    wins: Number,
+    losses: Number,
+    summoner_id: String,
+    summoner_level: Number,
+    lp_history: {},
+    match_history: {},
 });
 
 const Users = mongoose.model('Users', userSchema);
