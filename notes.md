@@ -48,3 +48,11 @@ exmaple:
     }
 ```
 
+## Storing data
+> This application is data heavy, and needs to have constant updates as the API is updated very often, to solve this we can try to implement these ideas
+- Do an initial fetch upon sign up of a new account if they enter a summoner_name
+- Do an update whenever a user is searched, and if they dont exist in the DB then add them to the DB
+- Have an update button on a users profile, and upon clicking update it will force refresh all the new matches/info and store it properly
+- Have a script that runs atleast once a day to update every user in the DB (Would be cool to do every user, but currently dont have the resources for that)
+
+
