@@ -29,7 +29,7 @@ export default function App() {
             .catch(err => console.log(err));
     }, []);
 
-    // Conditional rendering for General summoner info, can def clean this up later.
+    // Conditional rendering for General summoner info
     let renderGeneralInfo;
     if (userData) {
         if (userData.name) {
