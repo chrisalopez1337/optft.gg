@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import DataAnalysis from '../utils/dataAnalysis.js';
 
 const MainWrapper = styled.div`
     display: flex;
@@ -48,7 +49,9 @@ export default function SearchBar({ setUserData, userData }) {
         axios.get(`/api/leagues/allInfo/by-summmoner-name/${searchName}`)
             .then(({ data }) => {
                 setUserData(data);
-                console.log(data.allMatchInfo.game0);
+                const { puuid } = data;
+                const analysis = new DataAnalysis(data.allMatchInfo, puuid);
+                analysis.collectDataForSinglePlayer();
             })
             .catch(err => console.log(err));
     }

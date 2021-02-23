@@ -100,13 +100,13 @@ export default class DataAnalysis {
                         if (!this.traitsMap[name]) {
                             this.traitsMap[name] = { count: 1, wins: 0, losses: 0 };
                         } else {
-                            this.traitsMap[name][count]++;
+                            this.traitsMap[name].count++;
                         }
 
                         if (win) {
-                            this.traitsMap[name][wins]++;
+                            this.traitsMap[name].wins++;
                         } else {
-                            this.traitsMap[name][losses]++;
+                            this.traitsMap[name].losses++;
                         }
                     }
 
@@ -118,13 +118,14 @@ export default class DataAnalysis {
                         if (!this.unitsMap[character_id]) {
                             this.unitsMap[character_id] = { count: 1, wins: 0, losses: 0 };
                         } else {
-                            this.unitsMap[character_id][count]++;
+                            this.unitsMap[character_id].count++;
                         }
                         // Win loss count
                         if (win) {
-                            this.unitsMap[character_id][wins]++;
+                            console.log(this.unitsMap[character_id])
+                            this.unitsMap[character_id].wins++;
                         } else {
-                            this.unitsMap[character_id][losses]++;
+                            this.unitsMap[character_id].losses++;
                         }
                         // Add defualt values to average
                         this.averageUnitTier += tier; 
@@ -137,10 +138,10 @@ export default class DataAnalysis {
                                 this.itemsMap[key] = { wins: 0, losses: 0 };
                             }
 
-                            if (wins) {
-                                this.itemsMap[key][wins]++;
+                            if (win) {
+                                this.itemsMap[key].wins++;
                             } else {
-                                this.itemsMap[key][losses]++;
+                                this.itemsMap[key].losses++;
                             }
                         }
 
