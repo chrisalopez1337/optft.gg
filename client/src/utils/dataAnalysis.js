@@ -50,109 +50,39 @@
  * last_round -> Average last round
  */
 
+
 export default class DataAnalysis {
-    constructor(gameData, puuid) {
-        // Raw data
-        this.gameData = gameData;
-        // Stored calculated data for batch of matches
-        this.averageGoldLeft = 0;
-        this.averageLevel = 0;
-        this.averageTotalDamage = 0;
-        this.averageGameTime = 0;
-        this.itemsMap = {};
-        this.averageTimeEliminated = 0;
-        this.traitsMap = {};
-        this.averagePlacement = 0;
-        this.unitsMap = {};
-        this.puuid = puuid;
-        this.averageUnitTier = 0;
-        this.averageUnitRarity = 0;
+    constructor(allGames, playerPuuid) {
+        this.allGames = allGames;
+        this.playerPuuid = playerPuuid;
     }
-    
-    collectDataForSinglePlayer() {
-        // Loop over every game
-        for (const key in this.gameData) {
-            // Select current game and pull required data out
-            const game = this.gameData[key];
+
+    collectData() {
+        let allPlayerData = {};
+        for (const key in this.allGames) {
+            const game = this.allGames[key];
             const { info, metadata } = game;
-            const { game_datetime, game_length, participants } = info;
-            // Loop over each participant
-            for (let i = 0; i < participants.length; i++) {
-                // Get all the main participant data
-                const participant = participants[i];
-                if (participant.puuid === this.puuid) {
-                    const { companion, gold_left, last_round, level, placement, time_eliminated, total_damage_to_players, traits, units } = participant;
-                    const win = placement >= 4 ? true : false;
-                    // Add to global values
-                    this.averageGoldLeft += gold_left;
-                    this.averageLevel += level;
-                    this.averageTotalDamage += total_damage_to_players;
-                    this.averageGameTime += game_length;
-                    this.averagePlacement += placement;
-                    this.averageTimeEliminated += time_eliminated;
+            // Get meaningful info out of the metadata;
+            const participantIds = metadata.participants; 
+            const matchId = metadata.match_id;
+            // Get meaningful info out of the info obj
+            const { game_length, game_datetime, participants};
 
-                    // Sum up total traits stats
-                    for (let j = 0; j < traits.length; j++) {
-                        // Get trait
-                        const trait = traits[i];
-                        const { name } = trait;
-                        // Add to map or increment
-                        if (!this.traitsMap[name]) {
-                            this.traitsMap[name] = { count: 1, wins: 0, losses: 0 };
-                        } else {
-                            this.traitsMap[name].count++;
-                        }
-
-                        if (win) {
-                            this.traitsMap[name].wins++;
-                        } else {
-                            this.traitsMap[name].losses++;
-                        }
-                    }
-
-                    // Sum upp total unit stats
-                    for (let x = 0; x < units.length; x++) {
-                        const unit = units[x];
-                        const { character_id, items, tier, rarity } = unit;
-                        // Add to average to map
-                        if (!this.unitsMap[character_id]) {
-                            this.unitsMap[character_id] = { count: 1, wins: 0, losses: 0 };
-                        } else {
-                            this.unitsMap[character_id].count++;
-                        }
-                        // Win loss count
-                        if (win) {
-                            console.log(this.unitsMap[character_id])
-                            this.unitsMap[character_id].wins++;
-                        } else {
-                            this.unitsMap[character_id].losses++;
-                        }
-                        // Add defualt values to average
-                        this.averageUnitTier += tier; 
-                        this.averageUnitRarity += rarity;
-                        // add items to item map
-                        for (let y = 0; y < items.length; y++) {
-                            const itemId = items[y];
-                            const key = `itemId-${itemId}`;
-                            if (!this.itemsMap[key]) {
-                                this.itemsMap[key] = { wins: 0, losses: 0 };
-                            }
-
-                            if (win) {
-                                this.itemsMap[key].wins++;
-                            } else {
-                                this.itemsMap[key].losses++;
-                            }
-                        }
-
-                    }
-
+            // Structure the data
+            for (let i = 0; i < participantsId.length; i++) {
+                const pId = participantsId[i];
+                if (!allPlayerData[pId]) {
+                    allPlayersData[pId] = {}; 
                 }
             }
+
         }
-        console.log(this);
     }
 }
+
+
+
+
 
 
 
