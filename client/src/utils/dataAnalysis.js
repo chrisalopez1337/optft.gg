@@ -164,5 +164,6 @@ export default function DataAnalysis(rawData) {
     playerSearchedData['averageTimeEliminated'] = getAverage(playerSearchedData.totalTimeEliminated, playerSearchedData.gamesTracked);
     playerSearchedData['averageDamageToPlayers'] = getAverage(playerSearchedData.totalDamageToPlayers, playerSearchedData.gamesTracked);
     const result = { averagedData, playerSearchedData };
+    console.log(result)
     return result;
 }

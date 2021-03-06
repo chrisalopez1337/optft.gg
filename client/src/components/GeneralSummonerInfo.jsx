@@ -15,11 +15,11 @@ const InnerWrapper = styled.div`
     padding: 10px;
 `;
 
-export default function GeneralSummonerInfo({ userData }) {
+export default function GeneralSummonerInfo({ searchedUser }) {
     return (
         <MainWrapper>
             <InnerWrapper>
-                <h1>{userData.name}</h1>
+                <h1>{searchedUser.name}</h1>
             </InnerWrapper>
         </MainWrapper>
     );

@@ -29,11 +29,14 @@ export default function App() {
             .catch(err => console.log(err));
     }, []);
 
+    // Searched users data
+    const [searchedUser, setSearchedUser] = useState(null);
+
     // Conditional rendering for General summoner info
     let renderGeneralInfo;
-    if (userData) {
-        if (userData.name) {
-            renderGeneralInfo = <GeneralSummonerInfo userData={userData} />
+    if (searchedUser) {
+        if (searchedUser.name) {
+            renderGeneralInfo = <GeneralSummonerInfo searchedUser={searchedUser} />
         } else {
             renderGeneralInfo = <></>;
         }
@@ -44,7 +47,7 @@ export default function App() {
     return (
         <AppWraper>
             <Header setUserData={setUserData} userData={userData} />
-            <SearchBar setUserData={setUserData} userData={userData} />
+            <SearchBar setSearchedUser={setSearchedUser} userData={userData} />
             {renderGeneralInfo}
         </AppWraper>
     );
