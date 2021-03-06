@@ -1,3 +1,10 @@
+function getAverage(value, divider, floor = true) {
+    if (floor) {
+        return Math.floor(value / divider);
+    } else {
+        return value / divider;
+    }
+}
 export default function DataAnalysis(rawData) {
     // Extract base data needed
     const searchedPlayerPuuid = rawData.puuid;
@@ -117,22 +124,17 @@ export default function DataAnalysis(rawData) {
         const currentCheckedPlayer = formattedData[key];
         const { gamesTracked, totalDamageToPlayers, totalGoldLeft, totalLastRound, totalLevel, totalPlacement, totalPlayersEliminated, totalTimeEliminated, traits } = currentCheckedPlayer;
         // Add averages
-        function getAverage(value, divider = gamesTracked) {
-            return Math.floor(value / divider);
-        }
 
-        averagedData.averageGoldLeft += getAverage(totalGoldLeft);
-        averagedData.averageLastRound += getAverage(totalLastRound);
-        averagedData.averageLevel += getAverage(totalLevel);
-        averagedData.averagePlacement += getAverage(totalPlacement);
-        averagedData.averagePlayersEliminated += getAverage(totalPlayersEliminated);
-        averagedData.averageTimeEliminated += getAverage(totalTimeEliminated);
-        averagedData.averageDamageToPlayers += getAverage(totalDamageToPlayers);
+        averagedData.averageGoldLeft += getAverage(totalGoldLeft, gamesTracked);
+        averagedData.averageLastRound += getAverage(totalLastRound, gamesTracked);
+        averagedData.averageLevel += getAverage(totalLevel, gamesTracked);
+        averagedData.averagePlacement += getAverage(totalPlacement, gamesTracked);
+        averagedData.averagePlayersEliminated += getAverage(totalPlayersEliminated, gamesTracked);
+        averagedData.averageTimeEliminated += getAverage(totalTimeEliminated, gamesTracked);
+        averagedData.averageDamageToPlayers += getAverage(totalDamageToPlayers, gamesTracked);
 
         // Now add to the map of all of the traits
-        console.log(currentCheckedPlayer);
         const traitKeys = Object.keys(currentCheckedPlayer.traits);
-        console.log(traitKeys);
         for (let k = 0; k < traitKeys.length; k++) {
             const trait = traitKeys[k];
             if (!averagedData.averageTraitData[trait]) {
@@ -143,5 +145,24 @@ export default function DataAnalysis(rawData) {
             }
         }
     }
-    console.log(averagedData);
+    // updateAveragedData even further
+    averagedData.averageGoldLeft /= amountOfPlayersChecked;
+    averagedData.averageLastRound /= amountOfPlayersChecked;
+    averagedData.averageLevel /= amountOfPlayersChecked;
+    averagedData.averagePlacement /= amountOfPlayersChecked;
+    averagedData.averagePlayersEliminated /= amountOfPlayersChecked;
+    averagedData.averageTimeEliminated /= amountOfPlayersChecked;
+    averagedData.averageDamageToPlayers /= amountOfPlayersChecked;
+
+    // get the data of the player that is being searched.
+    const playerSearchedData = formattedData[searchedPlayerPuuid];
+    playerSearchedData['averageGoldLeft'] = getAverage(playerSearchedData.totalGoldLeft, playerSearchedData.gamesTracked);
+    playerSearchedData['averageLastRound'] = getAverage(playerSearchedData.totalLastRound, playerSearchedData.gamesTracked);
+    playerSearchedData['averageLevel'] = getAverage(playerSearchedData.totalLevel, playerSearchedData.gamesTracked);
+    playerSearchedData['averagePlacement'] = getAverage(playerSearchedData.totalPlacement, playerSearchedData.gamesTracked);
+    playerSearchedData['averagePlayersEliminated'] = getAverage(playerSearchedData.totalPlayersEliminated, playerSearchedData.gamesTracked, false);
+    playerSearchedData['averageTimeEliminated'] = getAverage(playerSearchedData.totalTimeEliminated, playerSearchedData.gamesTracked);
+    playerSearchedData['averageDamageToPlayers'] = getAverage(playerSearchedData.totalDamageToPlayers, playerSearchedData.gamesTracked);
+    const result = { averagedData, playerSearchedData };
+    return result;
 }
