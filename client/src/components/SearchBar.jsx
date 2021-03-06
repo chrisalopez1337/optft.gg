@@ -50,6 +50,7 @@ export default function SearchBar({ setUserData, userData }) {
             .then(({ data }) => {
                 setUserData(data);
                 console.log(data);
+                DataAnalysis(data);
             })
             .catch(err => console.log(err));
     }
