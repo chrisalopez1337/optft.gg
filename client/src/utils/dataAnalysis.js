@@ -8,8 +8,6 @@ export default function DataAnalysis(rawData) {
     // Begin to loop over the data.
     for (const key in allMatchInfo) {
         const currentGame = allMatchInfo[key];
-        console.log(key);
-        console.log(allMatchInfo[key]);
         
         // Add placeholder for our result
         const currentGameId = currentGame.metadata.match_id;
@@ -40,8 +38,7 @@ export default function DataAnalysis(rawData) {
                         totalTimeEliminated: 0,
                         totalDamageToPlayers: 0,
                         traits: {},
-                        units: {},
-                        items: {},
+                        gamesTracked: 0,
                     }
             }
         }
@@ -65,6 +62,7 @@ export default function DataAnalysis(rawData) {
             playerData.totalPlayersEliminated += players_eliminated;
             playerData.totalTimeEliminated += time_eliminated;
             playerData.totalDamageToPlayers += total_damage_to_players;
+            playerData.gamesTracked++;
 
             // For now we are only going to map primary traits
             
@@ -93,5 +91,57 @@ export default function DataAnalysis(rawData) {
             // DEV NOTE: we could potentially add processing for specific champion and item data, however I think unit data is sufficent at this point.
         }
     }
-    console.log(formattedData);
+    // At this point we have a map of more well formatted data, now however we have to average this data out in a meaningful fashion and pin that against the player who is searching.
+    
+    // Average out all the data.
+    const averagedData = 
+        {
+            averageGoldLeft: 0,
+            averageLastRound: 0,
+            averageLevel: 0,
+            averagePlacement: 0,
+            averagePlayersEliminated: 0,
+            averageTimeEliminated: 0,
+            averageDamageToPlayers: 0,
+            averageTraitData: {},
+        }
+    // Find the number to be dividing by, and collect averages
+    let amountOfPlayersChecked = 0;
+    let keys = Object.keys(formattedData);
+    for (let z = 0; z < keys.length; z++) {
+        const key = keys[z];
+        if (key[0] + key[1] === 'NA') {
+            continue;
+        }
+        amountOfPlayersChecked++;
+        const currentCheckedPlayer = formattedData[key];
+        const { gamesTracked, totalDamageToPlayers, totalGoldLeft, totalLastRound, totalLevel, totalPlacement, totalPlayersEliminated, totalTimeEliminated, traits } = currentCheckedPlayer;
+        // Add averages
+        function getAverage(value, divider = gamesTracked) {
+            return Math.floor(value / divider);
+        }
+
+        averagedData.averageGoldLeft += getAverage(totalGoldLeft);
+        averagedData.averageLastRound += getAverage(totalLastRound);
+        averagedData.averageLevel += getAverage(totalLevel);
+        averagedData.averagePlacement += getAverage(totalPlacement);
+        averagedData.averagePlayersEliminated += getAverage(totalPlayersEliminated);
+        averagedData.averageTimeEliminated += getAverage(totalTimeEliminated);
+        averagedData.averageDamageToPlayers += getAverage(totalDamageToPlayers);
+
+        // Now add to the map of all of the traits
+        console.log(currentCheckedPlayer);
+        const traitKeys = Object.keys(currentCheckedPlayer.traits);
+        console.log(traitKeys);
+        for (let k = 0; k < traitKeys.length; k++) {
+            const trait = traitKeys[k];
+            if (!averagedData.averageTraitData[trait]) {
+                averagedData.averageTraitData[trait] = currentCheckedPlayer.traits[trait];
+            } else {
+                averagedData.averageTraitData[trait].wins += currentCheckedPlayer.traits[trait].wins;
+                averagedData.averageTraitData[trait].losses += currentCheckedPlayer.traits[trait].losses;
+            }
+        }
+    }
+    console.log(averagedData);
 }
