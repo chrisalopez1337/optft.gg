@@ -24,7 +24,7 @@ const SearchItemWrapper = styled.div`
 `;
 
 
-export default function SearchBar({ setSearchedUser, userData }) {
+export default function SearchBar({ setSearchedUser, userData, setAnalyzedData }) {
     // Field data
     const [fields, setFields] = useState({ searchName: '', searchRegion: 'NA' });
     const { searchName, searchRegion } = fields;
@@ -48,9 +48,9 @@ export default function SearchBar({ setSearchedUser, userData }) {
 
         axios.get(`/api/leagues/allInfo/by-summmoner-name/${searchName}`)
             .then(({ data }) => {
+                const formattedData = DataAnalysis(data);
+                setAnalyzedData(formattedData);
                 setSearchedUser(data);
-                console.log(data);
-                DataAnalysis(data);
             })
             .catch(err => console.log(err));
     }

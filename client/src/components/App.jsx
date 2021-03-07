@@ -18,7 +18,6 @@ export default function App() {
     const [userData, setUserData] = useState(null);
     useEffect(() => {
         const savedData = getItem('loggedIn');
-        console.log(savedData);
         if (!savedData) {
             setUserData(savedData);
             return;
@@ -31,12 +30,13 @@ export default function App() {
 
     // Searched users data
     const [searchedUser, setSearchedUser] = useState(null);
+    const [analyzedData, setAnalyzedData] = useState(null);
 
     // Conditional rendering for General summoner info
     let renderGeneralInfo;
     if (searchedUser) {
         if (searchedUser.name) {
-            renderGeneralInfo = <GeneralSummonerInfo searchedUser={searchedUser} />
+            renderGeneralInfo = <GeneralSummonerInfo searchedUser={searchedUser} analyzedData={analyzedData} />
         } else {
             renderGeneralInfo = <></>;
         }
@@ -47,7 +47,7 @@ export default function App() {
     return (
         <AppWraper>
             <Header setUserData={setUserData} userData={userData} />
-            <SearchBar setSearchedUser={setSearchedUser} userData={userData} />
+            <SearchBar setSearchedUser={setSearchedUser} userData={userData} setAnalyzedData={setAnalyzedData} />
             {renderGeneralInfo}
         </AppWraper>
     );

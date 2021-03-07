@@ -15,11 +15,23 @@ const InnerWrapper = styled.div`
     padding: 10px;
 `;
 
-export default function GeneralSummonerInfo({ searchedUser }) {
+const PlayerTitleWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+`;
+
+export default function GeneralSummonerInfo({ searchedUser, analyzedData }) {
+    console.log(searchedUser);
+    const { name, profileIconId, rank, tier, leaguePoints, losses, wins, summonerLevel } = searchedUser;
+    const { averagedData, playerSearchedData } = analyzedData;
+    console.log(analyzedData)
     return (
         <MainWrapper>
             <InnerWrapper>
-                <h1>{searchedUser.name}</h1>
+                <PlayerTitleWrapper>
+                    <h1>{name}</h1>
+                </PlayerTitleWrapper>
             </InnerWrapper>
         </MainWrapper>
     );
