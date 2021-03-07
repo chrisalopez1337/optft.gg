@@ -80,6 +80,52 @@ export default function GeneralSummonerInfo({ searchedUser, analyzedData }) {
                         <Section>Losses:</Section>
                         <Main>{losses}</Main>
                     </Row>
+
+                    <Row>
+                        <Section>W/L Ratio:</Section>
+                        <Main>{Math.floor(wins / (wins + losses) * 100)}%</Main>
+                    </Row>
+                </ColumnHolder>
+            </InnerWrapper>
+                <h1>Your Average Stats</h1>
+            <InnerWrapper>
+                <ColumnHolder>
+                    <Row>
+                        <Section>Average Level:</Section>
+                        <Main>{playerSearchedData.averageLevel}</Main>
+                    </Row>
+
+                    <Row>
+                        <Section>Average Gold Left:</Section>
+                        <Main>{playerSearchedData.averageGoldLeft}</Main>
+                    </Row>
+
+                    <Row>
+                        <Section>Average Placement:</Section>
+                        <Main>{playerSearchedData.averagePlacement}</Main>
+                    </Row>
+
+                    <Row>
+                        <Section>Average Last Round:</Section>
+                        <Main>{playerSearchedData.averageLastRound}</Main>
+                    </Row>
+                </ColumnHolder>
+
+                <ColumnHolder>
+                    <Row>
+                        <Section>Average Players Eliminated:</Section>
+                        <Main>{playerSearchedData.averagePlayersElminiated}</Main>
+                    </Row>
+
+                    <Row>
+                        <Section>Average Time Eliminated:</Section>
+                        <Main>{Math.floor(playerSearchedData.averageTimeEliminated / 60)}mins</Main>
+                    </Row>
+
+                    <Row>
+                        <Section>Average Damage To Players:</Section>
+                        <Main>{playerSearchedData.averageDamageToPlayers}</Main>
+                    </Row>
                 </ColumnHolder>
             </InnerWrapper>
         </OuterWrapper>
