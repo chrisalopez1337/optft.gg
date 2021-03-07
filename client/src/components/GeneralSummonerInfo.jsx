@@ -67,8 +67,18 @@ export default function GeneralSummonerInfo({ searchedUser, analyzedData }) {
             }
         playerTraits.push(obj);
     };
-    console.log(playerTraits);
     const { averageDamageToPlayers, averageGoldLeft, averageLastRound, averageLevel, averagePlacement, averagePlayersEliminated, averageTimeEliminated, averageTraitData } = averagedData;
+    // Convert average traits into an array for mapping
+    const averageTraits = [];
+    for (const i in averageTraitData) {
+        const obj = 
+            {
+                name: formatName(i),
+                wins: averageTraitData[i].wins,
+                losses: averageTraitData[i].losses,
+            }
+        averageTraits.push(obj);
+    }
     console.log(analyzedData)
     return (
         <OuterWrapper>
@@ -201,6 +211,19 @@ export default function GeneralSummonerInfo({ searchedUser, analyzedData }) {
                         <Section>Average Damage To Players:</Section>
                         <Main>{Math.floor(averageDamageToPlayers)}</Main>
                     </Row>
+                </ColumnHolder>
+            </InnerWrapper>
+                <h1> Peers Trait Data </h1>
+            <InnerWrapper>
+                <ColumnHolder>
+                {averageTraits.map(obj => {
+                    return (
+                        <Row>
+                            <Section>{obj.name}</Section>
+                            <Main> Wins: {obj.wins} Losses: {obj.losses} Ratio: {Math.floor(obj.wins / (obj.wins + obj.losses) * 100)}%</Main>
+                        </Row>
+                    );
+                })}
                 </ColumnHolder>
             </InnerWrapper>
         </OuterWrapper>
